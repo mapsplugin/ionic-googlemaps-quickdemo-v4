@@ -1,0 +1,7 @@
+{
+  "name": "ionic-googlemaps-quickdemo-v4",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
