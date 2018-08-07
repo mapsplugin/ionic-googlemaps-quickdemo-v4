@@ -11,10 +11,8 @@ const routes: Routes = [
     path: 'home',
     loadChildren: './home/home.module#HomePageModule'
   },
-  {
-    path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
-  }
+  { path: 'marker', loadChildren: './marker/marker.module#MarkerPageModule' },
+  { path: 'marker-cluster', loadChildren: './marker-cluster/marker-cluster.module#MarkerClusterPageModule' }
 ];
 
 @NgModule({
