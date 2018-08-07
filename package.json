@@ -27,9 +27,11 @@
     "@ionic/angular": "4.0.0-beta.0",
     "@ionic/ng-toolkit": "1.0.0",
     "@ionic/schematics-angular": "1.0.1",
-    "cordova-android": "7.0.0",
+    "cordova-android": "^7.1.1",
+    "cordova-ios": "^4.5.5",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-googlemaps": "file:../cordova-plugin-googlemaps",
+    "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git#2.7.0",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -42,14 +44,14 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/architect": "^0.7.0-rc.1",
+    "@angular-devkit/build-angular": "0.7.0-rc.3",
+    "@angular-devkit/core": "0.7.0-rc.3",
+    "@angular-devkit/schematics": "0.7.0-rc.3",
     "@angular/cli": "6.0.8",
     "@angular/compiler": "6.0.9",
     "@angular/compiler-cli": "6.0.9",
     "@angular/language-service": "6.0.9",
-    "@angular-devkit/architect": "0.7.0-rc.3",
-    "@angular-devkit/build-angular": "0.7.0-rc.3",
-    "@angular-devkit/core": "0.7.0-rc.3",
-    "@angular-devkit/schematics": "0.7.0-rc.3",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~10.5.2",
@@ -70,8 +72,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_ANDROID": "(api key)",
-        "API_KEY_FOR_IOS": "(api key)",
+        "API_KEY_FOR_ANDROID": "AIzaSyBzTWTKaMEeABaeBSa3_E6ZMxseK4xXl4k",
+        "API_KEY_FOR_IOS": "AIzaSyBzTWTKaMEeABaeBSa3_E6ZMxseK4xXl4k",
         "PLAY_SERVICES_VERSION": "15.0.1",
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
@@ -82,7 +84,8 @@
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
