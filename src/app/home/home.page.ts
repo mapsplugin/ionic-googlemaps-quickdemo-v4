@@ -9,6 +9,7 @@ import {
   MyLocation
 } from '@ionic-native/google-maps';
 
+declare var window: any;
 
 @Component({
   selector: 'app-home',
@@ -22,14 +23,10 @@ export class HomePage implements OnInit {
   constructor(public toastCtrl: ToastController) {
   }
 
-  ngOnInit(){
+  public ngOnInit(){
     this.loadMap();
   }
-
   loadMap() {
-    console.log('--->loadMap');
-    // Create a map after the view is loaded.
-    // (platform is already ready in app.component.ts)
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
         target: {
@@ -41,9 +38,6 @@ export class HomePage implements OnInit {
       }
     });
 
-  }
-  scrolling(event) {
-    console.log(event);
   }
 
   onButtonClick() {

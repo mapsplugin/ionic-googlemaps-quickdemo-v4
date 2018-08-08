@@ -17,13 +17,35 @@ export class AppComponent {
     },
     {
       title: 'Marker',
-      url: '/marker',
-      icon: 'marker'
+      url: '/marker'
     },
     {
       title: 'MarkerCluster',
-      url: '/marker-cluster',
-      icon: 'marker-cluster'
+      url: '/marker-cluster'
+    },
+    {
+      title: 'Polyline',
+      url: '/polyline'
+    },
+    {
+      title: 'Polygon',
+      url: '/polygon'
+    },
+    {
+      title: 'Polygon',
+      url: '/polygon'
+    },
+    {
+      title: 'GroundOverlay',
+      url: '/ground-overlay'
+    },
+    {
+      title: 'GroundOverlay',
+      url: '/ground-overlay'
+    },
+    {
+      title: 'TileOverlay',
+      url: '/tile-overlay'
     }
   ];
 
