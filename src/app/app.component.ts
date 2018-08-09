@@ -20,6 +20,10 @@ export class AppComponent {
       url: '/marker'
     },
     {
+      title: 'HtmlInfoWindow',
+      url: '/html-info-window'
+    },
+    {
       title: 'MarkerCluster',
       url: '/marker-cluster'
     },
@@ -32,20 +36,32 @@ export class AppComponent {
       url: '/polygon'
     },
     {
-      title: 'Polygon',
-      url: '/polygon'
+      title: 'Circle',
+      url: '/circle'
     },
     {
       title: 'GroundOverlay',
       url: '/ground-overlay'
     },
     {
-      title: 'GroundOverlay',
-      url: '/ground-overlay'
+      title: 'Geocoding',
+      url: '/geocoding'
     },
     {
       title: 'TileOverlay',
       url: '/tile-overlay'
+    },
+    {
+      title: 'KmlOverlay',
+      url: '/kml-overlay'
+    },
+    {
+      title: 'StreetView',
+      url: '/street-view'
+    },
+    {
+      title: 'BaseArrayClass',
+      url: '/base-array-class'
     }
   ];
 
