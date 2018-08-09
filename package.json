@@ -30,7 +30,7 @@
     "cordova-android": "^7.1.1",
     "cordova-ios": "^4.5.5",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-googlemaps": "file:../cordova-plugin-googlemaps",
+    "cordova-plugin-googlemaps": "https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git#2.7.0",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.0.2",
