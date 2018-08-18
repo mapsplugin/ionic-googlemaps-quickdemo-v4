@@ -7,7 +7,7 @@ import {
   GeocoderResult,
   Marker
 } from '@ionic-native/google-maps';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-geocoding',
@@ -21,12 +21,14 @@ export class GeocodingPage implements OnInit {
   loading: any;
   @ViewChild('search_address') search_address:ElementRef;
 
-  constructor(public loadingCtrl: LoadingController) {
-  }
+  constructor(public loadingCtrl: LoadingController, private platform: Platform) { }
 
   async ngOnInit() {
-    this.loadMap1();
-    this.loadMap2();
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap1();
+    await this.loadMap2();
   }
 
   loadMap1() {

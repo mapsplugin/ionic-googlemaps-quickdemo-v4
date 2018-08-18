@@ -7,6 +7,7 @@ import {
   Marker,
   BaseArrayClass
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-marker',
@@ -16,10 +17,13 @@ import {
 export class MarkerPage implements OnInit {
   map: GoogleMap;
 
-  constructor() { }
+  constructor(private platform: Platform) { }
 
-  ngOnInit() {
-    this.loadMap();
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   loadMap() {

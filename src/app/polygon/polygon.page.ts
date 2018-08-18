@@ -9,6 +9,7 @@ import {
   ILatLng,
   LatLng
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-polygon',
@@ -34,12 +35,13 @@ export class PolygonPage implements OnInit {
     {lat: 41.79909000000001, lng: 140.75465}
   ];
 
-  constructor() {
-  }
+  constructor(private platform: Platform) { }
 
-  ngOnInit() {
-    console.log('ionViewDidLoad PolygonPage');
-    this.loadMap();
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   loadMap() {

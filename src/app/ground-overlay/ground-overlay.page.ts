@@ -6,6 +6,7 @@ import {
   ILatLng,
   GroundOverlay
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -17,10 +18,13 @@ export class GroundOverlayPage implements OnInit {
 
   map: GoogleMap;
 
-  constructor() { }
+  constructor(private platform: Platform) { }
 
-  ngOnInit() {
-    this.loadMap();
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   loadMap() {
@@ -28,7 +32,7 @@ export class GroundOverlayPage implements OnInit {
       {"lat": 40.712216, "lng": -74.22655},
       {"lat": 40.773941, "lng": -74.12544}
     ];
-
+console.log('--->loadMap');
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
         target: bounds

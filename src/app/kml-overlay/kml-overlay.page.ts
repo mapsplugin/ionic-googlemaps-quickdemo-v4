@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -19,10 +19,13 @@ export class KmlOverlayPage implements OnInit {
   map: GoogleMap;
   loading: any;
 
-  constructor(public loadingCtrl: LoadingController) {}
+  constructor(public loadingCtrl: LoadingController, private platform: Platform) { }
 
   async ngOnInit() {
-    this.loadMap();
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   async loadMap() {

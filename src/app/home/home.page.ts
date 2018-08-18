@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -8,8 +8,6 @@ import {
   GoogleMapsAnimation,
   MyLocation
 } from '@ionic-native/google-maps';
-
-declare var window: any;
 
 @Component({
   selector: 'app-home',
@@ -20,12 +18,15 @@ export class HomePage implements OnInit {
 
   map: GoogleMap;
 
-  constructor(public toastCtrl: ToastController) {
+  constructor(public toastCtrl: ToastController, private platform: Platform) { }
+
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
-  public ngOnInit(){
-    this.loadMap();
-  }
   loadMap() {
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
@@ -71,6 +72,9 @@ export class HomePage implements OnInit {
             this.showToast('clicked!');
           });
         });
+      })
+      .catch(err => {
+        this.showToast(err.error_message);
       });
   }
 

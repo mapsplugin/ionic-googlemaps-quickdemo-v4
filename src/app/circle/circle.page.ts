@@ -8,6 +8,7 @@ import {
   Marker,
   Spherical
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -19,10 +20,13 @@ export class CirclePage implements OnInit {
 
   map: GoogleMap;
 
-  constructor() {}
+  constructor(private platform: Platform) { }
 
-  ngOnInit() {
-    this.loadMap();
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   loadMap() {

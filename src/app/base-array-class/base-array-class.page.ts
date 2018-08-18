@@ -8,6 +8,7 @@ import {
   Spherical,
   BaseArrayClass
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-base-array-class',
@@ -19,12 +20,15 @@ export class BaseArrayClassPage implements OnInit {
   map: GoogleMap;
   distance: string;
 
-  constructor(private _ngZone: NgZone) {
+  constructor(private _ngZone: NgZone, private platform: Platform) { }
+
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
-  ngOnInit() {
-    this.loadMap();
-  }
   loadMap() {
     let points: Array<ILatLng> = [
       {lat: 33.91636924837674, lng: -118.39605331420898},

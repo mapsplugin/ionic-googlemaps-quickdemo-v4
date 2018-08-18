@@ -9,6 +9,7 @@ import {
   StreetViewCameraPosition,
   StreetViewLocation
 } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-street-view',
@@ -21,8 +22,13 @@ export class StreetViewPage implements OnInit {
   map: GoogleMap;
   marker: Marker;
 
-  ngOnInit() {
-    this.loadMap();
+  constructor(private platform: Platform) { }
+
+  async ngOnInit() {
+    // Since ngOnInit() is executed before `deviceready` event,
+    // you have to wait the event.
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   loadMap() {
