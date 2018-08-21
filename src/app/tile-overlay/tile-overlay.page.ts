@@ -15,6 +15,7 @@ import { Platform } from '@ionic/angular';
 export class TileOverlayPage implements OnInit {
 
   map: GoogleMap;
+  layers: [] = [];
 
   constructor(private platform: Platform) { }
 
@@ -28,10 +29,28 @@ export class TileOverlayPage implements OnInit {
 
     this.map = GoogleMaps.create('map_canvas');
 
-    this.map.addTileOverlaySync({
-      getTile: (x: number, y: number, zoom: number) => {
-        return `http://tile.stamen.com/watercolor/${zoom}/${x}/${y}.jpg`;
-      }
+    [
+      "http://tile.stamen.com/toner/{zoom}/{x}/{y}.png",
+      "http://tile.stamen.com/watercolor/{zoom}/{x}/{y}.jpg"
+    ].forEach((layerUrl: string, idx: number) => {
+
+      let layer = this.map.addTileOverlaySync({
+        zIndex: idx,
+        getTile: (x: number, y: number, zoom: number) => {
+          return layerUrl.replace("{zoom}", zoom)
+                    .replace("{x}", x)
+                    .replace("{y}", y);
+        }
+      });
+      this.layers.push(layer);
+    });
+
+  }
+
+  onButtonClick() {
+    this.layers = this.layers.reverse();
+    this.layers.forEach((layer: any, idx: number) => {
+      layer.setZIndex(idx);
     });
   }
 }
