@@ -37,7 +37,14 @@ export class KmlOverlayPage implements OnInit {
 
     this.map = GoogleMaps.create('map_canvas');
     let kmlOverlay: KmlOverlay = await this.map.addKmlOverlay({
-      url: "assets/kmloverlay/polygon.kml"
+      url: "assets/kmloverlay/polygon.kml",
+      icon: {
+        url: "https://sakko-story.com/wp-content/uploads/2018/06/8be6e8a52c759e191bee9f656702af30.png",
+        size: {
+          width: 32,
+          height: 32
+        }
+      }
     });
 
     this.loading.dismiss();
