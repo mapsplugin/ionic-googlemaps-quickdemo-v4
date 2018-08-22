@@ -15,7 +15,7 @@ import { Platform } from '@ionic/angular';
 export class TileOverlayPage implements OnInit {
 
   map: GoogleMap;
-  layers: [] = [];
+  layers = [];
 
   constructor(private platform: Platform) { }
 
@@ -37,9 +37,9 @@ export class TileOverlayPage implements OnInit {
       let layer = this.map.addTileOverlaySync({
         zIndex: idx,
         getTile: (x: number, y: number, zoom: number) => {
-          return layerUrl.replace("{zoom}", zoom)
-                    .replace("{x}", x)
-                    .replace("{y}", y);
+          return layerUrl.replace("{zoom}", zoom + "")
+                    .replace("{x}", x + "")
+                    .replace("{y}", y + "");
         }
       });
       this.layers.push(layer);
