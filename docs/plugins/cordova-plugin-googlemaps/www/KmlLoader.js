@@ -58,9 +58,7 @@ KmlLoader.prototype.parseKmlFile = function(callback) {
   var self = this;
 
   self.exec.call(self.map, function(kmlData) {
-    // debug
-    // console.log(JSON.parse(JSON.stringify(kmlData)));
-
+    var rawKmlData = JSON.parse(JSON.stringify(kmlData));
     Object.defineProperty(self, "kmlStyles", {
       value: kmlData.styles,
       writable: false
@@ -84,6 +82,7 @@ KmlLoader.prototype.parseKmlFile = function(callback) {
         return !!overlay;
       });
       var result = placeMarkOverlays.shift();
+      //result.set('kmlData', rawKmlData);
       callback.call(self, self.camera, result);
     });
   }, self.map.errorHandler, self.map.id, 'loadPlugin', ['KmlOverlay', {

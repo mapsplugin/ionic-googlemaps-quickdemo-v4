@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.PluginMap", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.PluginMap", function(require, exports, module) { 
 
 
 var utils = require('cordova/utils'),
@@ -451,6 +451,8 @@ PluginMap.prototype.setTrafficEnabled = function(onSuccess, onError, args) {
   onSuccess();
 
 };
+
+
 
 PluginMap.prototype.fromLatLngToPoint = function(onSuccess, onError, args) {
   var self = this;

@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.HtmlInfoWindow", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.HtmlInfoWindow", function(require, exports, module) { 
  var utils = require('cordova/utils'),
   event = require('./event'),
   common = require('./Common'),
@@ -337,6 +337,7 @@ var HTMLInfoWindow = function () {
   };
 
   self._hook.on(self, "infoPosition_changed", function (ignore, point) {
+    if (!point) return;
     var x = point.x + self.get("offsetX");
     var y = point.y + self.get("offsetY");
     anchorDiv.style['-webkit-transform'] = "translate3d(" + x + "px, " + y + "px, 0px)";

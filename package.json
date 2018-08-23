@@ -78,7 +78,7 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_BROWSER": "AIzaSyBzTWTKaMEeABaeBSa3_E6ZMxseK4xXl4k"
+        "API_KEY_FOR_BROWSER": "AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk"
       }
     },
     "platforms": [

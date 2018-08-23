@@ -37,7 +37,7 @@ document.addEventListener("load_googlemaps", function() {
     //-----------------
     // Read XML file
     //-----------------
-    var xhr = createCORSRequest('GET', '/config.xml', true);
+    var xhr = createCORSRequest('GET', './config.xml', true);
     if (xhr) {
       xhr.onreadystatechange = function() {
         try {

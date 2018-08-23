@@ -20,5 +20,5 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="assets/imgs/screen.png" />
     <preference name="SplashScreenDelay" value="3000" />
-<preference name="API_KEY_FOR_BROWSER" value="AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk" />
+    <preference name="API_KEY_FOR_BROWSER" value="AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk" />
 </widget>

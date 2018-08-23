@@ -359,11 +359,11 @@ module.exports.metadata =
     "com.googlemaps.ios": "2.7.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "2.1.2",
-    "cordova-plugin-ionic-webview": "2.0.2",
+    "cordova-plugin-ionic-webview": "2.0.3",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-googlemaps": "2.3.12-ext-20180822-1038"
+    "cordova-plugin-googlemaps": "2.3.12-ext-20180822-1610"
 }
 // BOTTOM OF METADATA
 });

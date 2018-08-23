@@ -62,9 +62,6 @@ BaseClass.prototype = {
     var listeners = this[SUBSCRIPTIONS_FIELD][eventName];
     var i = listeners.length;
     var args = Array.prototype.slice.call(arguments, 1);
-    listeners = listeners.filter(function(listener) {
-      return !!listener;
-    });
 
     while (i--) {
       listeners[i].apply(this, args);

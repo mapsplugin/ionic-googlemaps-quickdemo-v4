@@ -182,9 +182,7 @@ var KmlOverlay = function(map, kmlId, camera, kmlData, kmlOverlayOptions) {
         styles = parseBalloonStyle(overlay.get("balloonstyle"));
       }
       styles = styles || {};
-      if (cordova.platformId !== 'browser') {
-        styles.overflow = "scroll";
-      }
+      styles.overflow = "scroll";
       styles["max-width"] = (map.getDiv().offsetWidth * 0.8) + "px";
       styles["max-height"] = (map.getDiv().offsetHeight * 0.6) + "px";
 

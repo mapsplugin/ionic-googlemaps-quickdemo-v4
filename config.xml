@@ -82,8 +82,8 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <plugin name="cordova-plugin-googlemaps" spec="/Users/masashi/Documents/workspace2/cordova-plugin-googlemaps">
-        <variable name="API_KEY_FOR_BROWSER" value="AIzaSyBzTWTKaMEeABaeBSa3_E6ZMxseK4xXl4k" />
+    <plugin name="cordova-plugin-googlemaps" spec="https://github.com/mapsplugin/cordova-plugin-googlemaps#experimental">
+        <variable name="API_KEY_FOR_BROWSER" value="AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk" />
     </plugin>
     <engine name="android" spec="^7.1.1" />
     <engine name="ios" spec="^4.5.5" />

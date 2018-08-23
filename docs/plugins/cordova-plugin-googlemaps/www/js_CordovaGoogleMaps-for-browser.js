@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.js_CordovaGoogleMaps", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.js_CordovaGoogleMaps", function(require, exports, module) { 
 
 var utils = require('cordova/utils'),
   common = require('cordova-plugin-googlemaps.Common'),

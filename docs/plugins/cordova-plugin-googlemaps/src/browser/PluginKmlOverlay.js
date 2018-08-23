@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.PluginKmlOverlay", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.PluginKmlOverlay", function(require, exports, module) { 
 var InlineWorker = require('cordova-plugin-googlemaps.InlineWorker');
 
 function PluginKmlOverlay(pluginMap) {
@@ -18,6 +18,7 @@ PluginKmlOverlay.prototype._create = function(onSuccess, onError, args) {
   //-------------------------------------
   var worker = new InlineWorker(loadKml);
   worker.onmessage = function(evt) {
+    console.log('host message', evt.data);
     worker.terminate();
     onSuccess(evt.data);
   };
@@ -250,6 +251,7 @@ function loadKml(self) {
         // merge attributes and child nodes
         if (typeof attributes === 'object') {
           object = attributes;
+          object.line=198;
         } else {
           object = {};
         }
@@ -267,7 +269,8 @@ function loadKml(self) {
         if ("string" === typeof child) {
           object = {
             'tagName': elem.n,
-            'value': child
+            'value': child,
+            'line': 215
           };
         } else {
           object = toObject(child, reviver);
@@ -276,7 +279,8 @@ function loadKml(self) {
               'tagName': elem.n,
               'value': {
                 'children': [object]
-              }
+              },
+              'line': 227
             };
           }
         }
@@ -284,7 +288,8 @@ function loadKml(self) {
         // the node has no attribute nor child node
         object = {
           'tagName': elem.n,
-          'value': ''
+          'value': '',
+          'line': 233
         };
       }
 
@@ -309,12 +314,14 @@ function loadKml(self) {
       } else {
         object.value.children.push({
           'tagName': key,
-          'value': val
+          'value': val,
+          'line': 258
         });
       }
     }
 
     return function(text, reviver) {
+      text = text.replace(/<\?xml[^>]+>/i, "");
       var xmlTree = parseXML(text);
       var result = toObject(xmlTree, reviver);
       result.tagName = "document";
@@ -495,6 +502,7 @@ function loadKml(self) {
       //-----------------
       // Read XML file
       //-----------------
+console.log(params);
       var xhr = createCORSRequest('GET', params.url, true);
       if (xhr) {
         xhr.onreadystatechange = function() {
@@ -517,8 +525,6 @@ function loadKml(self) {
       //-----------------
       // Parse it
       //-----------------
-      xmlTxt = xmlTxt.replace(/<\?xml[^>]+>/i, "");
-      xmlTxt = xmlTxt.replace(/(<!--).*?(-->)/g, "");
       var doc = fromXML(xmlTxt);
       var parser = new KmlParserClass();
       var root = parser.parseXml(doc);
