@@ -4,7 +4,8 @@ import {
   GoogleMap,
   GoogleMapsEvent,
   ILatLng,
-  GroundOverlay
+  GroundOverlay,
+  Marker
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
 
@@ -17,6 +18,9 @@ import { Platform } from '@ionic/angular';
 export class GroundOverlayPage implements OnInit {
 
   map: GoogleMap;
+  groundOverlay: GroundOverlay;
+  marker1: Marker;
+  marker2: Marker;
 
   constructor(private platform: Platform) { }
 
@@ -32,14 +36,26 @@ export class GroundOverlayPage implements OnInit {
       {"lat": 40.712216, "lng": -74.22655},
       {"lat": 40.773941, "lng": -74.12544}
     ];
-console.log('--->loadMap');
+
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
         target: bounds
       }
     });
 
-    let groundOverlay: GroundOverlay = this.map.addGroundOverlaySync({
+    this.marker1 = this.map.addMarkerSync({
+      'position': bounds[0],
+      'draggable': true
+    });
+    this.marker2 = this.map.addMarkerSync({
+      'position': bounds[1],
+      'draggable': true
+    });
+    this.marker1.on('position_changed').subscribe(this.redrawGroundOverlay.bind(this));
+    this.marker2.on('position_changed').subscribe(this.redrawGroundOverlay.bind(this));
+    this.marker1.trigger(GoogleMapsEvent.MARKER_CLICK);
+
+    this.groundOverlay = this.map.addGroundOverlaySync({
       'url': 'assets/imgs/newark_nj_1922.jpg',
       'bounds': bounds,
       'opacity': 0.5,
@@ -47,8 +63,16 @@ console.log('--->loadMap');
     });
 
     // Catch the GROUND_OVERLAY_CLICK event
-    groundOverlay.on(GoogleMapsEvent.GROUND_OVERLAY_CLICK).subscribe(() => {
-      groundOverlay.setImage('assets/imgs/newark_nj_1922_2.jpg');
+    this.groundOverlay.on(GoogleMapsEvent.GROUND_OVERLAY_CLICK).subscribe(() => {
+      this.groundOverlay.setImage('assets/imgs/newark_nj_1922_2.jpg');
     });
+
+  }
+
+  redrawGroundOverlay() {
+    this.groundOverlay.setBounds([
+      this.marker1.getPosition(),
+      this.marker2.getPosition()
+    ]);
   }
 }
