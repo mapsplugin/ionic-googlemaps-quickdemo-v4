@@ -30,8 +30,8 @@ export class TileOverlayPage implements OnInit {
     this.map = GoogleMaps.create('map_canvas');
 
     [
-      "http://tile.stamen.com/toner/{zoom}/{x}/{y}.png",
-      "http://tile.stamen.com/watercolor/{zoom}/{x}/{y}.jpg"
+      "https://stamen-tiles.a.ssl.fastly.net/toner/{zoom}/{x}/{y}.png",
+      "https://stamen-tiles.a.ssl.fastly.net/watercolor/{zoom}/{x}/{y}.jpg"
     ].forEach((layerUrl: string, idx: number) => {
 
       let layer = this.map.addTileOverlaySync({

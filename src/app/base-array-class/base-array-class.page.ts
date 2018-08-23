@@ -48,8 +48,9 @@ export class BaseArrayClassPage implements OnInit {
 
     baseArray.mapAsync((point: ILatLng, next: (newElement: any) => void) => {
       this.map.addMarker({
-        position: point,
-        draggable: true
+        'position': point,
+        'draggable': true,
+        'icon': 'blue'
       }).then(next);
     }).then((markers: Marker[]) => {
 

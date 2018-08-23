@@ -38,9 +38,7 @@ export class KmlOverlayPage implements OnInit {
     this.map = GoogleMaps.create('map_canvas');
     let kmlOverlay: KmlOverlay = await this.map.addKmlOverlay({
       url: "assets/kmloverlay/polygon.kml",
-      icon: {
-        url: "red"
-      }
+      icon: "green"
     });
 
     this.loading.dismiss();

@@ -66,6 +66,7 @@ document.addEventListener("load_googlemaps", function() {
         API_KEY_FOR_BROWSER = matches[1];
       }
     }
+    API_KEY_FOR_BROWSER = null;
 
     var secureStripeScript = document.createElement('script');
     if (API_KEY_FOR_BROWSER) {

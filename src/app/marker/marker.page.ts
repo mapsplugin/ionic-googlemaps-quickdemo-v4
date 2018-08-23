@@ -34,12 +34,12 @@ export class MarkerPage implements OnInit {
       },
       {
         position: {lat:41.799240000000005, lng:140.75875000000002},
-        iconData: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/24/Number-2-icon.png"
+        iconData: "https://mapsplugin.github.io/ionic-googlemaps-quickdemo-v4/assets/imgs/Number-2-icon.png"
       },
       {
         position: {lat:41.797650000000004, lng:140.75905},
         iconData: {
-          url: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/48/Number-3-icon.png",
+          url: "https://mapsplugin.github.io/ionic-googlemaps-quickdemo-v4/assets/imgs/Number-3-icon.png",
           size: {
             width: 24,
             height: 24
