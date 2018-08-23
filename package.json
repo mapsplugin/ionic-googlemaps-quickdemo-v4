@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "buildwww": "rm -rf www/ docs/; ionic cordova build browser --prod; mv www docs"
   },
   "private": true,
   "dependencies": {

@@ -1,5 +1,4 @@
 cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
-
 var utils = require('cordova/utils');
 var PluginMap = require('cordova-plugin-googlemaps.PluginMap'),
     PluginStreetViewPanorama = require('cordova-plugin-googlemaps.PluginStreetViewPanorama'),
@@ -30,41 +29,47 @@ function createCORSRequest(method, url, asynch) {
   return xhr;
 }
 
-document.addEventListener("load_googlemaps", function() {
+document.addEventListener("load_googlemaps", function(evt) {
+  var params = evt[0] || {};
   API_LOADED_STATUS = 1;
 
   (new Promise(function(resolve, reject) {
-    //-----------------
-    // Read XML file
-    //-----------------
+    if (params.API_KEY_FOR_BROWSER) {
+      resolve("<variables name='API_KEY_FOR_BROWSER' value='" + params.API_KEY_FOR_BROWSER + "' >");
+    } else {
+      //-----------------
+      // Read XML file
+      //-----------------
 
-    var link = document.createElement("a");
-    link.href = './config.xml';
-    var url = link.protocol+"//"+link.host+link.pathname;
+      var link = document.createElement("a");
+      link.href = './config.xml';
+      var url = link.protocol+"//"+link.host+link.pathname;
 
-    var xhr = createCORSRequest('GET', url, true);
-    if (xhr) {
-      xhr.onreadystatechange = function() {
-        try {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              resolve(xhr.responseText);
-            } else {
-              resolve("");
+      var xhr = createCORSRequest('GET', url, true);
+      if (xhr) {
+        xhr.onreadystatechange = function() {
+          try {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                resolve(xhr.responseText);
+              } else {
+                resolve("");
+              }
             }
+          } catch (e) {
+            resolve("");
           }
-        } catch (e) {
+        };
+        xhr.onerror = function(e) {
           resolve("");
-        }
-      };
-      xhr.onerror = function(e) {
-        resolve("");
-      };
-      xhr.send();
+        };
+        xhr.send();
+      }
     }
   }))
   .then(function(configFile) {
-    var API_KEY_FOR_BROWSER = null;
+    var API_KEY_FOR_BROWSER = params.API_KEY_FOR_BROWSER || null;
+
     if (configFile.indexOf("API_KEY_FOR_BROWSER") > -1) {
       var matches = configFile.match(/name\s*?=\s*?[\"\']API_KEY_FOR_BROWSER[\"\'][^>]+>/i);
       if (matches) {
@@ -114,9 +119,9 @@ var CordovaGoogleMaps = {
   resume: stub,
   pause: stub,
   getMap: function(onSuccess, onError, args) {
-  console.log(`API_LOADED_STATUS = ${API_LOADED_STATUS}`);
     var meta = args[0],
-      mapId = meta.id;
+      mapId = meta.id,
+      params = args[1];
     args[0] = mapId;
     args.unshift(this);
 
@@ -135,7 +140,7 @@ var CordovaGoogleMaps = {
 
     switch(API_LOADED_STATUS) {
       case 0:
-        cordova.fireDocumentEvent('load_googlemaps', []);
+        cordova.fireDocumentEvent('load_googlemaps', [params]);
         break;
       case 2:
         pluginMap.trigger("googleready");
@@ -165,7 +170,8 @@ var CordovaGoogleMaps = {
 
   getPanorama: function(onSuccess, onError, args) {
     var meta = args[0],
-      mapId = meta.id;
+      mapId = meta.id,
+      params = args[1];
     args[0] = mapId;
     args.unshift(this);
 
@@ -184,7 +190,7 @@ var CordovaGoogleMaps = {
 
     switch(API_LOADED_STATUS) {
       case 0:
-        cordova.fireDocumentEvent('load_googlemaps', []);
+        cordova.fireDocumentEvent('load_googlemaps', [params]);
         break;
       case 2:
         pluginStreetView.trigger("googleready");
