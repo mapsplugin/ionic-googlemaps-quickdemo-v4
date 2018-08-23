@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {
   GoogleMaps,
   GoogleMap,
@@ -17,7 +17,7 @@ export class HtmlInfoWindowPage implements OnInit {
 
   map: GoogleMap;
 
-  constructor(private platform: Platform) { }
+  constructor(private platform: Platform, private _ngZone: NgZone) { }
 
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
@@ -42,17 +42,33 @@ export class HtmlInfoWindowPage implements OnInit {
 
     let htmlInfoWindow = new HtmlInfoWindow();
 
+    // flip-flop contents
+    // https://davidwalsh.name/css-flip
     let frame: HTMLElement = document.createElement('div');
-    frame.innerHTML = [
-      '<b>Hearst Castle</b>',
-      '<img src="assets/imgs/hearst_castle.jpg">'
-    ].join("");
-    frame.getElementsByTagName("img")[0].addEventListener("click", () => {
-      htmlInfoWindow.setBackgroundColor('red');
+    frame.innerHTML = `
+<div class="flip-container" id="flip-container">
+  <div class="flipper">
+    <div class="front">
+    <h3>Click this photo!</h3>
+    <img src="assets/imgs/hearst_castle.jpg">
+  </div>
+  <div class="back">
+    <!-- back content -->
+    Hearst Castle above the clouds on top of The Enchanted Hill. William Randolph Hearst started to build a fabulous estate on his ranchland overlooking the village of San Simeon in 1919.
+    </div>
+  </div>
+</div>`;
+
+    frame.addEventListener("click", (evt) => {
+      let container = document.getElementById('flip-container');
+      if (container.className.indexOf(' hover') > -1) {
+        container.className = container.className.replace(" hover", "");
+      } else {
+        container.className += " hover";
+      }
     });
     htmlInfoWindow.setContent(frame, {
-      width: "280px",
-      height: "330px"
+      width: "170px"
     });
 
     let marker: Marker = this.map.addMarkerSync({
@@ -62,7 +78,7 @@ export class HtmlInfoWindowPage implements OnInit {
     });
 
     marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      htmlInfoWindow.open(marker);
+        htmlInfoWindow.open(marker);
     });
     marker.trigger(GoogleMapsEvent.MARKER_CLICK);
 

@@ -48,7 +48,7 @@ export class GeocodingPage implements OnInit {
       "address": this.search_address.nativeElement.value
     })
     .then((results: GeocoderResult[]) => {
-      console.log(results);
+      //console.log(results);
       this.loading.dismiss();
 
       let marker: Marker = this.map1.addMarkerSync({
@@ -110,18 +110,16 @@ export class GeocodingPage implements OnInit {
     })
     .then((mvcArray: BaseArrayClass<GeocoderResult[]>) => {
 
-      mvcArray.one('finish').then(() => {
-        let results: any[] = mvcArray.getArray();
-        results.forEach((result: GeocoderResult[]) => {
-          if (!result || result.length === 0) {
-            // Geocoder can not get the result
-            return;
-          }
-          this.map2.addMarkerSync({
-            'position': result[0].position,
-            'title':  JSON.stringify(result)
-          });
+      mvcArray.on('insert_at').subscribe((index:number) => {
+        let result: GeocoderResult = mvcArray.getAt(index);
+        this.map2.addMarkerSync({
+          'position': result[0].position,
+          'title':  JSON.stringify(result)
         });
+      });
+      mvcArray.one('finish').then(() => {
+        //let results: any[] = mvcArray.getArray();
+
         this.loading.dismiss();
         let end = Date.now();
         alert("duration: " + ((end - start) / 1000).toFixed(1) + " seconds");

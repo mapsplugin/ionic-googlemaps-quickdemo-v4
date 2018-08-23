@@ -28,9 +28,10 @@
     "@ionic/ng-toolkit": "1.0.0",
     "@ionic/schematics-angular": "1.0.1",
     "cordova-android": "^7.1.1",
+    "cordova-browser": "5.0.4",
     "cordova-ios": "^4.5.5",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-googlemaps": "https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps",
+    "cordova-plugin-googlemaps": "file:../cordova-plugin-googlemaps",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git#2.7.0",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.0.2",
@@ -71,21 +72,19 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_ANDROID": "(API key)",
-        "API_KEY_FOR_IOS": "(API key)",
-        "PLAY_SERVICES_VERSION": "15.0.1",
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-googlemaps": {
+        "API_KEY_FOR_BROWSER": "AIzaSyBzTWTKaMEeABaeBSa3_E6ZMxseK4xXl4k"
+      }
     },
     "platforms": [
       "android",
-      "ios"
+      "ios",
+      "browser"
     ]
   }
 }
