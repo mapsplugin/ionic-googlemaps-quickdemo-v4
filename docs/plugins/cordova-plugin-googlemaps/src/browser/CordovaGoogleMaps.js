@@ -37,7 +37,12 @@ document.addEventListener("load_googlemaps", function() {
     //-----------------
     // Read XML file
     //-----------------
-    var xhr = createCORSRequest('GET', './config.xml', true);
+
+    var link = document.createElement("a");
+    link.href = './config.xml';
+    var url = link.protocol+"//"+link.host+link.pathname;
+
+    var xhr = createCORSRequest('GET', url, true);
     if (xhr) {
       xhr.onreadystatechange = function() {
         try {
@@ -66,7 +71,6 @@ document.addEventListener("load_googlemaps", function() {
         API_KEY_FOR_BROWSER = matches[1];
       }
     }
-    API_KEY_FOR_BROWSER = null;
 
     var secureStripeScript = document.createElement('script');
     if (API_KEY_FOR_BROWSER) {
