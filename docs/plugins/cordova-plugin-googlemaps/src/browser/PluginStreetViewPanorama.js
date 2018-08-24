@@ -64,7 +64,7 @@ function PluginStreetViewPanorama(panoramaId, options, panoramaDivId) {
             google.maps.StreetViewSource.OUTDOOR : google.maps.StreetViewSource.DEFAULT;
         }
         var timeoutError = setTimeout(function() {
-          self.trigger('panorama_error');
+          self.trigger('load_error');
           displayGrayMap(panoramaDiv);
           reject();
         }, 3000);

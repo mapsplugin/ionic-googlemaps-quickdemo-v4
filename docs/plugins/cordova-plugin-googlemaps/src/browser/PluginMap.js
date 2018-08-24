@@ -128,7 +128,7 @@ function PluginMap(mapId, options, mapDivId) {
     self.set('map', map);
 
     var timeoutError = setTimeout(function() {
-      self.trigger('map_error');
+      self.trigger('load_error');
       displayGrayMap(mapDiv);
     }, 3000);
 
