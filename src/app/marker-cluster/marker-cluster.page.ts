@@ -63,7 +63,6 @@ export class MarkerClusterPage implements OnInit {
         }
       ]
     });
-console.log(markerCluster);
 
     markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params) => {
       let marker: Marker = params[1];

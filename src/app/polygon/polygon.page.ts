@@ -59,7 +59,6 @@ export class PolygonPage implements OnInit {
     });
 
     let points: BaseArrayClass<ILatLng> = polygon.getPoints();
-console.log(points);
 
     points.forEach((latLng: ILatLng, idx: number) => {
       let marker: Marker = this.map.addMarkerSync({
