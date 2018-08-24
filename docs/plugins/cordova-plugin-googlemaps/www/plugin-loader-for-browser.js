@@ -1,8 +1,5 @@
-cordova.define("cordova-plugin-googlemaps.googlemaps-cdv-plugin", function(require, exports, module) { 
-var argscheck = require('cordova/argscheck'),
-    utils = require('cordova/utils'),
-    event = require('cordova-plugin-googlemaps.event'),
-    common = require('cordova-plugin-googlemaps.Common');
+cordova.define("cordova-plugin-googlemaps.googlemaps-cdv-plugin", function(require, exports, module) {
+var event = require('cordova-plugin-googlemaps.event');
 
 var Map = require('cordova-plugin-googlemaps.Map'),
   BaseClass = require('cordova-plugin-googlemaps.BaseClass'),

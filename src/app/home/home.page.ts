@@ -10,8 +10,7 @@ import {
   GoogleMapsEvent,
   Marker,
   GoogleMapsAnimation,
-  MyLocation,
-  Environment
+  MyLocation
 } from '@ionic-native/google-maps';
 
 @Component({
@@ -45,8 +44,7 @@ export class HomePage implements OnInit {
         },
         zoom: 18,
         tilt: 30
-      },
-      API_KEY_FOR_BROWSER: '(YOUR_API_KEY_IS_HERE)'
+      }
     });
 
   }
