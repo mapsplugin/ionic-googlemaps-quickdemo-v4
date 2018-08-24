@@ -1,5 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
-var utils = require('cordova/utils');
+cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) { var utils = require('cordova/utils');
 var PluginMap = require('cordova-plugin-googlemaps.PluginMap'),
     PluginStreetViewPanorama = require('cordova-plugin-googlemaps.PluginStreetViewPanorama'),
     event = require('cordova-plugin-googlemaps.event'),
@@ -91,8 +90,9 @@ document.addEventListener("load_googlemaps", function(evt) {
     secureStripeScript.addEventListener("load", function() {
       API_LOADED_STATUS = 2;
 
-      var maps = Object.values(MAPS);
-      maps.forEach(function(map) {
+      var mKeys = Object.keys(MAPS);
+      mKeys.forEach(function(mkey) {
+        var map = MAPS[mkey];
         if (!map.get("isGoogleReady")) {
           map.trigger("googleready");
         }
@@ -137,6 +137,7 @@ var CordovaGoogleMaps = {
     require('cordova/exec/proxy').add(mapId, dummyObj);
 
     pluginMap.one(event.MAP_READY, onSuccess);
+    pluginMap.one('map_error', onError);
 
     switch(API_LOADED_STATUS) {
       case 0:
@@ -187,6 +188,7 @@ var CordovaGoogleMaps = {
     require('cordova/exec/proxy').add(mapId, dummyObj);
 
     pluginStreetView.one(event.PANORAMA_READY, onSuccess);
+    pluginStreetView.one('panorama_error', onError);
 
     switch(API_LOADED_STATUS) {
       case 0:

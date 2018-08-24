@@ -1,4 +1,7 @@
 cordova.define("cordova-plugin-googlemaps.js_CordovaGoogleMaps", function(require, exports, module) { 
+if (!window.Promise) {
+  window.Promise = require('./Promise');
+}
 
 var utils = require('cordova/utils'),
   common = require('cordova-plugin-googlemaps.Common'),

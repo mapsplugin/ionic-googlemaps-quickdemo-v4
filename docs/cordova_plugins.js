@@ -51,6 +51,12 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/cordova-plugin-googlemaps/www/Promise.js",
+        "id": "cordova-plugin-googlemaps.Promise",
+        "pluginId": "cordova-plugin-googlemaps",
+        "runs": true
+    },
+    {
         "file": "plugins/cordova-plugin-googlemaps/www/BaseClass.js",
         "id": "cordova-plugin-googlemaps.BaseClass",
         "pluginId": "cordova-plugin-googlemaps",
@@ -369,7 +375,7 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-googlemaps": "2.4.0-ext-20180823-1242"
+    "cordova-plugin-googlemaps": "2.4.0-beta-20180823-1136"
 }
 // BOTTOM OF METADATA
 });

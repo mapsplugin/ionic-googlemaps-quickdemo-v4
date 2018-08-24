@@ -1,5 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.PluginEnvironment", function(require, exports, module) {
-
+cordova.define("cordova-plugin-googlemaps.PluginEnvironment", function(require, exports, module) { 
 module.exports = {
   'isAvailable': function(onSuccess, onError, args) {
     onSuccess();
