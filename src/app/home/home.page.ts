@@ -58,39 +58,37 @@ export class HomePage implements OnInit {
     await this.loading.present();
 
     // Get the location of you
-    this.map.getMyLocation()
-      .then((location: MyLocation) => {
-        this.loading.dismiss();
-        console.log(JSON.stringify(location, null ,2));
+    this.map.getMyLocation().then((location: MyLocation) => {
+      this.loading.dismiss();
+      console.log(JSON.stringify(location, null ,2));
 
-        // Move the map camera to the location with animation
-        this.map.animateCamera({
-          target: location.latLng,
-          zoom: 17,
-          tilt: 30
-        })
-        .then(() => {
-          // add a marker
-          let marker: Marker = this.map.addMarkerSync({
-            title: '@ionic-native/google-maps plugin!',
-            snippet: 'This plugin is awesome!',
-            position: location.latLng,
-            animation: GoogleMapsAnimation.BOUNCE
-          });
-
-          // show the infoWindow
-          marker.showInfoWindow();
-
-          // If clicked it, display the alert
-          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-            this.showToast('clicked!');
-          });
-        });
-      })
-      .catch(err => {
-        this.loading.dismiss();
-        this.showToast(err.error_message);
+      // Move the map camera to the location with animation
+      this.map.animateCamera({
+        target: location.latLng,
+        zoom: 17,
+        tilt: 30
       });
+
+      // add a marker
+      let marker: Marker = this.map.addMarkerSync({
+        title: '@ionic-native/google-maps plugin!',
+        snippet: 'This plugin is awesome!',
+        position: location.latLng,
+        animation: GoogleMapsAnimation.BOUNCE
+      });
+
+      // show the infoWindow
+      marker.showInfoWindow();
+
+      // If clicked it, display the alert
+      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+        this.showToast('clicked!');
+      });
+    })
+    .catch(err => {
+      this.loading.dismiss();
+      this.showToast(err.error_message);
+    });
   }
 
   async showToast(message: string) {

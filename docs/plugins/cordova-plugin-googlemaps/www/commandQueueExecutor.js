@@ -45,6 +45,7 @@ function execCmd(success, error, pluginName, methodName, args, execOptions) {
     "execOptions": execOptions,
     "args": [
       function() {
+        //console.log(`[success] methodName = ${methodName}`);
         //-------------------------------
         // success callback
         //-------------------------------
@@ -81,6 +82,7 @@ function execCmd(success, error, pluginName, methodName, args, execOptions) {
         }, delay);
       },
       function() {
+        //console.log(`[error] methodName = ${methodName}`);
         //-------------------------------
         // error callback
         //-------------------------------
@@ -151,6 +153,7 @@ function _exec() {
       }
       _isResizeMapExecuting = true;
     }
+    //console.log(`[start] methodName = ${methodName}`);
 
     // If the `_stopRequested` flag is true,
     // do not execute any statements except `remove()` or `clear()` methods.

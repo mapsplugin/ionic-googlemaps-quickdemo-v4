@@ -15,14 +15,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
-        "id": "cordova-plugin-ionic-webview.IonicWebView",
-        "pluginId": "cordova-plugin-ionic-webview",
-        "clobbers": [
-            "Ionic.WebView"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "id": "cordova-plugin-splashscreen.SplashScreen",
         "pluginId": "cordova-plugin-splashscreen",
@@ -35,6 +27,14 @@ module.exports = [
         "id": "cordova-plugin-splashscreen.SplashScreenProxy",
         "pluginId": "cordova-plugin-splashscreen",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
+        "id": "cordova-plugin-ionic-webview.IonicWebView",
+        "pluginId": "cordova-plugin-ionic-webview",
+        "clobbers": [
+            "Ionic.WebView"
+        ]
     },
     {
         "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
@@ -365,17 +365,16 @@ module.exports = [
         "runs": true
     }
 ];
-module.exports.metadata = 
+module.exports.metadata =
 // TOP OF METADATA
 {
-    "com.googlemaps.ios": "2.7.0",
-    "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-ionic-keyboard": "2.1.2",
-    "cordova-plugin-ionic-webview": "2.0.2",
-    "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-googlemaps": "2.4.0-beta-20180823-1136"
+    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-ionic-keyboard": "2.1.2",
+    "cordova-plugin-ionic-webview": "2.1.0",
+    "cordova-plugin-statusbar": "2.4.2",
+    "cordova-plugin-googlemaps": "2.4.1"
 }
 // BOTTOM OF METADATA
 });
