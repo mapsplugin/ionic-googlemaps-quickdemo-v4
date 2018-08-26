@@ -2,8 +2,8 @@
 
 This demo application is aim to describe how to use `@ionic-native/google-maps` with Ionic v4.
 
--[sample.apk](./sample.apk)
--[browser demo](https://mapsplugin.github.io/ionic-googlemaps-quickdemo-v4/)
+- [sample.apk](./sample.apk)
+- [browser demo](https://mapsplugin.github.io/ionic-googlemaps-quickdemo-v4/)
 
 
 ## Before use this demo...
