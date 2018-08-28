@@ -1,5 +1,4 @@
 cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
-
 var PluginMap = require('cordova-plugin-googlemaps.PluginMap'),
     PluginStreetViewPanorama = require('cordova-plugin-googlemaps.PluginStreetViewPanorama'),
     event = require('cordova-plugin-googlemaps.event'),
@@ -115,7 +114,6 @@ var CordovaGoogleMaps = {
     pluginMap = null;
     MAPS[mapId] = undefined;
     delete MAPS[mapId];
-    onSuccess();
   },
 
   getPanorama: function(onSuccess, onError, args) {

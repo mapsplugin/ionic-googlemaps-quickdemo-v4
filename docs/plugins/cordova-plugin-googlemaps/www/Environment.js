@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.Environment", function(require, exports, module) { 
+cordova.define("cordova-plugin-googlemaps.Environment", function(require, exports, module) {
 var common = require('./Common');
 
 /*****************************************************************************

@@ -69,8 +69,8 @@ export class GeocodingPage implements OnInit {
     this.map2 = GoogleMaps.create('map_canvas2', {
       camera: {
         target: [
-          {"lat": 21.306944, "lng": -157.858333},
-          {"lat": 47.037874, "lng": -69.779490}
+          {"lat": 37.789, "lng": -122.38},
+          {"lat": 32.909, "lng": -117.181}
         ]
       }
     });
@@ -87,25 +87,16 @@ export class GeocodingPage implements OnInit {
     // Geocode multiple location
     Geocoder.geocode({
 
-      // US Capital cities
+      // Google office locations in California, USA
       "address": [
-        "Montgomery, AL, USA", "Juneau, AK, USA", "Phoenix, AZ, USA",
-        "Little Rock, AR, USA", "Sacramento, CA, USA", "Denver, CO, USA",
-        "Hartford, CT, USA", "Dover, DE, USA", "Washington, DC, USA",
-        "Tallahassee, FL, USA", "Atlanta, GA, USA", "Honolulu, HI, USA",
-        "Boise, ID, USA", "Springfield, IL, USA", "Indianapolis, IN, USA",
-        "Des Moines, IA, USA", "Topeka, KS, USA", "Frankfort, KY, USA",
-        "Baton Rouge, LA, USA", "Augusta, ME, USA", "Annapolis, MD, USA",
-        "Boston, MA, USA", "Lansing, MI, USA", "Saint Paul, MN, USA",
-        "Jackson, MS, USA", "Jefferson City, MO, USA", "Helena, MT, USA",
-        "Lincoln, NE, USA", "Carson City, NV, USA", "Concord, NH, USA",
-        "Trenton, NJ, USA", "Santa Fe, NM, USA", "Albany, NY, USA",
-        "Raleigh, NC, USA", "Bismarck, ND, USA", "Columbus, OH, USA",
-        "Oklahoma City, OK, USA", "Salem, OR, USA", "Harrisburg, PA, USA",
-        "Providence, RI, USA", "Columbia, SC, USA", "Pierre, SD, USA",
-        "Nashville, TN, USA", "Austin, TX, USA", "Salt Lake City, UT, USA",
-        "Montpelier, VT, USA", "Richmond, VA, USA", "Olympia, WA, USA",
-        "Charleston, WV, USA", "Madison, WI, USA", "Cheyenne, Wyoming, USA"
+        "19510 Jamboree Road, Irvine, CA 92612, United States",
+        "803 11th Avenue, Sunnyvale, CA 94089, United States",
+        "6420 Sequence Dr, Suite 400, San Diego, CA 92121, United States",
+        "345 Spear Street, San Francisco, CA 94105, United States",
+        "901 Cherry Avenue, San Bruno, CA 94066, United States",
+        "12422 W. Bluff Creek Drive,Playa Vista, CA 90094,United States",
+        "1600 Amphitheatre Parkway,Mountain View, CA 94043,United States",
+        "340 Main Street,Los Angeles, CA 90291,United States",
       ]
     })
     .then((mvcArray: BaseArrayClass<GeocoderResult[]>) => {
@@ -118,11 +109,12 @@ export class GeocodingPage implements OnInit {
         });
       });
       mvcArray.one('finish').then(() => {
-        //let results: any[] = mvcArray.getArray();
-
         this.loading.dismiss();
         let end = Date.now();
         alert("duration: " + ((end - start) / 1000).toFixed(1) + " seconds");
+
+        let results: any[] = mvcArray.getArray();
+        console.log(results);
       });
 
     });
