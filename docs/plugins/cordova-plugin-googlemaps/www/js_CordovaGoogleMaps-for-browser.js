@@ -1,5 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.js_CordovaGoogleMaps", function(require, exports, module) {
-
+cordova.define("cordova-plugin-googlemaps.js_CordovaGoogleMaps", function(require, exports, module) { 
 if (!window.Promise) {
   window.Promise = require('cordova-plugin-googlemaps.Promise');
 }
@@ -27,6 +26,46 @@ function CordovaGoogleMaps(execCmd) {
   self.MAPS = {};
   self.MAP_CNT = 0;
 
+  var removeMapDiv = function(node) {
+    if (node.hasAttribute('__pluginmapid') && !node.parentNode) {
+      var mapId = node.getAttribute('__pluginmapid');
+      var map = self.MAPS[mapId];
+      if (map) {
+        map.remove();
+        delete self.MAPS[mapId];
+      }
+    } else {
+      var childNodes = Array.prototype.slice.call(node.childNodes);
+      childNodes.forEach(function(child) {
+        if (child.outerHTML && child.outerHTML.indexOf('__pluginmapid') > -1) {
+          removeMapDiv(child);
+        }
+      });
+    }
+  };
+
+  //------------------------------------------------------------------------------
+  // Using MutationObserver, observe only added/removed or style changed elements
+  //------------------------------------------------------------------------------
+  var observer = new MutationObserver(function(mutations) {
+    common.nextTick(function() {
+      var mutationRecords = Array.prototype.slice.call(mutations, 0);
+      mutationRecords.forEach(function(record) {
+        if (record.removedNodes.length > 0) {
+          record.removeNodes = Array.prototype.slice.call(record.removedNodes, 0);
+          record.removeNodes.forEach(function(node) {
+            if (node.outerHTML && node.outerHTML.indexOf('__pluginmapid') > -1) {
+              removeMapDiv(node);
+            }
+          });
+        }
+      });
+    });
+  });
+  observer.observe(document.body.parentElement, {
+    childList: true,
+    subtree: true
+  });
 }
 
 CordovaGoogleMaps.prototype.getMap = function(div, mapOptions) {
@@ -158,6 +197,13 @@ function postPanoramaInit(panorama, div, options) {
     console.error('[GoogleMaps] You need to specify a dom element(such as <div>) for this method', div);
     return;
   }
+  // If the given div is not fully ready, wait a little
+  if (!common.shouldWatchByNative(div)) {
+    setTimeout(function() {
+      common.nextTick(postPanoramaInit.bind(self, map, div, options));
+    }, 50);
+    return;
+  }
   if (div.offsetWidth < 100 || div.offsetHeight < 100) {
     console.error('[GoogleMaps] Minimum container dimention is 100x100 in pixels.', div);
     return;
@@ -191,6 +237,13 @@ function postMapInit(map, div, options) {
   var args = [];
 
   if (common.isDom(div)) {
+    // If the given div is not fully ready, wait a little
+    if (!common.shouldWatchByNative(div)) {
+      setTimeout(function() {
+        common.nextTick(postMapInit.bind(self, map, div, options));
+      }, 50);
+      return;
+    }
     if (div.offsetWidth < 100 || div.offsetHeight < 100) {
       console.error('[GoogleMaps] Minimum container dimention is 100x100 in pixels.', div);
       return;

@@ -1,4 +1,6 @@
-cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) { 
+
+
 var PluginMap = require('cordova-plugin-googlemaps.PluginMap'),
     PluginStreetViewPanorama = require('cordova-plugin-googlemaps.PluginStreetViewPanorama'),
     event = require('cordova-plugin-googlemaps.event'),
@@ -86,6 +88,9 @@ var CordovaGoogleMaps = {
     pluginMap.one(event.MAP_READY, onSuccess);
     pluginMap.one('load_error', onError);
 
+    // Does this app already load the google maps library?
+    API_LOADED_STATUS = (window.google && window.google.maps) ? 2 : API_LOADED_STATUS;
+
     switch(API_LOADED_STATUS) {
       case 0:
         cordova.fireDocumentEvent('load_googlemaps', []);
@@ -114,6 +119,7 @@ var CordovaGoogleMaps = {
     pluginMap = null;
     MAPS[mapId] = undefined;
     delete MAPS[mapId];
+    onSuccess();
   },
 
   getPanorama: function(onSuccess, onError, args) {
@@ -135,6 +141,9 @@ var CordovaGoogleMaps = {
 
     pluginStreetView.one(event.PANORAMA_READY, onSuccess);
     pluginStreetView.one('load_error', onError);
+
+    // Does this app already load the google maps library?
+    API_LOADED_STATUS = (window.google && window.google.maps) ? 2 : API_LOADED_STATUS;
 
     switch(API_LOADED_STATUS) {
       case 0:

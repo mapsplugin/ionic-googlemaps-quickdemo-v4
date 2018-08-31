@@ -340,19 +340,15 @@ Apache License
  See the License for the specific language governing permissions and
  limitations under the License.
 
-@angular/platform-browser@6.0.9
-MIT
-MIT
-
 @angular/router@6.0.9
 MIT
 MIT
 
-@ionic-native/core@5.0.0-beta.14
+@angular/platform-browser@6.0.9
 MIT
 MIT
 
-@ionic-native/google-maps@5.0.0-beta.16
+@ionic-native/core@5.0.0-beta.14
 MIT
 MIT
 

@@ -1,5 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.PluginMap", function(require, exports, module) {
-
+cordova.define("cordova-plugin-googlemaps.PluginMap", function(require, exports, module) { 
 
 var utils = require('cordova/utils'),
   event = require('cordova-plugin-googlemaps.event'),
@@ -56,8 +55,6 @@ function PluginMap(mapId, options, mapDivId) {
   container.style.bottom = 0;
   container.style.right = 0;
   container.style.left = 0;
-  container.style.width = "100%";
-  container.style.height = "100%";
   mapDiv.insertBefore(container, mapDiv.firstElementChild);
 
 

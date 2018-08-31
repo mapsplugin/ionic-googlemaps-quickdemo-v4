@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.googlemaps-cdv-plugin", function(require, exports, module) {
+cordova.define("cordova-plugin-googlemaps.googlemaps-cdv-plugin", function(require, exports, module) { 
 var event = require('cordova-plugin-googlemaps.event');
 
 var Map = require('cordova-plugin-googlemaps.Map'),
