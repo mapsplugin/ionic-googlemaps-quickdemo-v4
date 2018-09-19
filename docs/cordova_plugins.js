@@ -375,7 +375,7 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-googlemaps": "2.4.2"
+    "cordova-plugin-googlemaps": "2.4.4-beta-20180918-1207"
 }
 // BOTTOM OF METADATA
 });

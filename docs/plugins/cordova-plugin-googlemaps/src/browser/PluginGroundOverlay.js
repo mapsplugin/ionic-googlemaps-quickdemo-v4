@@ -165,7 +165,7 @@ PluginGroundOverlay.prototype._onGroundOverlayEvent = function(groundoverlay, mo
     plugin.google.maps[mapId]({
       'evtName': event.GROUND_OVERLAY_CLICK,
       'callback': '_onOverlayEvent',
-      'args': [groundoverlay.overlayId, mouseEvt.latLng]
+      'args': [groundoverlay.overlayId, new LatLng(mouseEvt.latLng.lat(), mouseEvt.latLng.lng())]
     });
   }
 
@@ -402,12 +402,13 @@ CustomGroundOverlay.prototype.draw = function() {
 
 CustomGroundOverlay.prototype.onAdd = function() {
   var self = this;
+  self.set('mapPane', self.getPanes().mapPane);
   self.getPanes().mapPane.appendChild(self.get("img"));
 };
 
 CustomGroundOverlay.prototype.onRemove = function() {
   var self = this;
-  self.getPanes().mapPane.removeChild(self.get("img"));
+  self.get('mapPane').removeChild(self.get("img"));
   google.maps.event.clearInstanceListeners(self.get('img'));
 };
 

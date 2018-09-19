@@ -58,7 +58,9 @@ PluginMarker.prototype.__create = function(markerId, pluginOptions, onSuccess) {
           'fillColor': 'rgb(' + pluginOptions.icon.url[0] + ',' + pluginOptions.icon.url[1] + ',' + pluginOptions.icon.url[2] + ')',
           'fillOpacity': pluginOptions.icon.url[3] / 256,
           'scale': 1.3,
-          'strokeWeight': 0,
+          'strokeWeight': 1,
+          'strokeColor': 'rgb(255, 255, 255)',
+          'strokeOpacity': 0.65,
           'anchor': new google.maps.Point(12, 27)
         };
         iconSize = {
@@ -86,13 +88,19 @@ PluginMarker.prototype.__create = function(markerId, pluginOptions, onSuccess) {
       'fillColor': 'rgb(255, 0, 0)',
       'fillOpacity': 1,
       'scale': 1.3,
-      'strokeWeight': 0,
+      'strokeWeight': 1,
+      'strokeColor': 'rgb(255, 255, 255)',
+      'strokeOpacity': 0.65,
       'anchor': new google.maps.Point(12, 27)
     };
     iconSize = {
       'width': 22,
       'height': 28
     };
+  }
+
+  if ('zIndex' in pluginOptions) {
+    markerOpts.zIndex = pluginOptions.zIndex;
   }
   markerOpts.map = map;
   var marker = new google.maps.Marker(markerOpts);
@@ -230,9 +238,19 @@ PluginMarker.prototype.setInfoWindowAnchor = function(onSuccess, onError, args) 
   var overlayId = args[0];
   var marker = self.pluginMap.objects[overlayId];
   if (marker) {
-    marker.setOptions({
-      'anchorPoint': new google.maps.Point(args[1], args[2])
-    });
+    (new Promise(function(resolve, reject) {
+      var icon = marker.getIcon();
+      var anchorX = args[1];
+      anchorX = anchorX - icon.size.width / 2;
+      var anchorY = args[2];
+      anchorY = anchorY - icon.size.height / 2;
+      marker.setOptions({
+        'anchorPoint': new google.maps.Point(anchorX, anchorY)
+      });
+      if (self.infoWnd) {
+        self._showInfoWindow.call(self, marker);
+      }
+    }));
   }
   onSuccess();
 };
@@ -268,6 +286,25 @@ PluginMarker.prototype.setOpacity = function(onSuccess, onError, args) {
   }
   onSuccess();
 };
+
+PluginMarker.prototype.setIconAnchor = function(onSuccess, onError, args) {
+  var self = this;
+  var overlayId = args[0];
+  var anchorX = args[1],
+    anchorY = args[2];
+  var marker = self.pluginMap.objects[overlayId];
+  if (marker) {
+    var icon = marker.getIcon();
+    if (typeof icon === "string") {
+      icon = {
+        'url': icon
+      };
+    }
+    icon.anchor = new google.maps.Point(anchorX, anchorY);
+    marker.setIcon(icon);
+  }
+  onSuccess();
+};
 PluginMarker.prototype.setZIndex = function(onSuccess, onError, args) {
   var self = this;
   var overlayId = args[0];
@@ -283,6 +320,9 @@ PluginMarker.prototype.showInfoWindow = function(onSuccess, onError, args) {
   var overlayId = args[0];
   var marker = self.pluginMap.objects[overlayId];
   if (marker) {
+    if (self.pluginMap.activeMarker && self.pluginMap.activeMarker !== marker) {
+      self.onMarkerClickEvent(event.INFO_CLICK, self.pluginMap.activeMarker);
+    }
     self.pluginMap.activeMarker = marker;
     self._showInfoWindow.call(self, marker);
   }
@@ -292,6 +332,7 @@ PluginMarker.prototype.hideInfoWindow = function(onSuccess, onError, args) {
   var self = this;
   var overlayId = args[0];
   if (self.infoWnd) {
+    google.maps.event.trigger(self.infoWnd, 'closeclick');
     self.infoWnd.close();
     self.infoWnd = null;
   }
@@ -325,6 +366,9 @@ PluginMarker.prototype.setIcon_ = function(marker, iconOpts) {
         if (typeof iconOpts.size === "object") {
           iconOpts.size = new google.maps.Size(iconOpts.size.width, iconOpts.size.height, 'px', 'px');
           iconOpts.scaledSize = iconOpts.size;
+        }
+        if (Array.isArray(iconOpts.anchor)) {
+          iconOpts.anchor = new google.maps.Point(iconOpts.anchor[0], iconOpts.anchor[1]);
         }
       }
 
@@ -376,7 +420,13 @@ PluginMarker.prototype.onMarkerEvent = function(evtName, marker) {
 PluginMarker.prototype._showInfoWindow = function(marker) {
   var self = this;
   if (!self.infoWnd) {
-    self.infoWnd = new google.maps.InfoWindow();
+    self.infoWnd = new google.maps.InfoWindow({
+      'pixelOffset': new google.maps.Size(0, 0)
+    });
+  }
+  var container = document.createElement('div');
+  if (self.pluginMap.activeMarker && self.pluginMap.activeMarker !== marker) {
+    self.onMarkerClickEvent(event.INFO_CLICK, self.pluginMap.activeMarker);
   }
   self.pluginMap.activeMarker = marker;
   self.pluginMap._syncInfoWndPosition.call(self);
@@ -389,10 +439,25 @@ PluginMarker.prototype._showInfoWindow = function(marker) {
     html.push('<small>' + marker.get("snippet") + '</small>');
   }
   if (html.length > 0) {
+    container.innerHTML = html.join('<br>');
+    google.maps.event.addListenerOnce(self.infoWnd, 'domready', function() {
+      self.onMarkerClickEvent(event.INFO_OPEN, marker);
+
+      if (container.parentNode) {
+        google.maps.event.addDomListener(container.parentNode.parentNode.parentNode, 'click', function() {
+          self.onMarkerClickEvent(event.INFO_CLICK, marker);
+        }, true);
+      }
+
+    });
     self.infoWnd.setOptions({
-      content: html.join('<br>'),
+      content: container,
       disableAutoPan: marker.disableAutoPan,
       maxWidth: maxWidth
+    });
+    google.maps.event.addListener(self.infoWnd, 'closeclick', function() {
+      google.maps.event.clearInstanceListeners(self.infoWnd);
+      self.onMarkerClickEvent(event.INFO_CLOSE, marker);
     });
     self.infoWnd.open(marker.getMap(), marker);
   }
@@ -402,14 +467,18 @@ PluginMarker.prototype.onMarkerClickEvent = function(evtName, marker) {
   var self = this;
 
   var overlayId = marker.get("overlayId");
+
+  if (self.pluginMap.activeMarker && self.pluginMap.activeMarker !== marker) {
+    self.onMarkerEvent(event.INFO_CLOSE, self.pluginMap.activeMarker);
+  }
   self.pluginMap.activeMarker = marker;
   if (marker.get('disableAutoPan') === false) {
     self.pluginMap.get('map').panTo(marker.getPosition());
   }
   if (overlayId.indexOf("markercluster_") > -1) {
-    self.onClusterEvent(event.MARKER_CLICK, marker);
+    self.onClusterEvent(evtName, marker);
   } else {
-    self.onMarkerEvent(event.MARKER_CLICK, marker);
+    self.onMarkerEvent(evtName, marker);
   }
 
 };

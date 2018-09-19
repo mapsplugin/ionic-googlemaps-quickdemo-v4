@@ -223,7 +223,7 @@ PluginMarkerCluster.prototype.redrawClusters = function(onSuccess, onError, args
           properties.icon = iconProperties;
         }
       }
-      changeProperties[clusterId_markerId] = properties;
+      changeProperties[clusterId_markerId] =  JSON.parse(JSON.stringify(properties));
     });
 
     if (updateClusterIDs.length === 0) {
@@ -439,13 +439,15 @@ PluginMarkerCluster.prototype.remove = function(onSuccess, onError, args) {
 PluginMarkerCluster.prototype.onClusterEvent = function(evtName, marker) {
   var self = this,
     mapId = self.pluginMap.id;
-
   var overlayId = marker.get("overlayId");
   var tmp = overlayId.split("-");
   var clusterId = tmp[0];
   var markerId = tmp[1];
   var latLng = marker.getPosition();
   if (mapId in plugin.google.maps) {
+    if (self.pluginMap.activeMarker) {
+      self.onMarkerEvent(event.INFO_CLOSE, self.pluginMap.activeMarker);
+    }
     plugin.google.maps[mapId]({
       'evtName': evtName,
       'callback': '_onClusterEvent',
@@ -495,15 +497,13 @@ function ClusterIconClass(options) {
     'clickable': false,
     'icon': options.icon,
     'zIndex': 0,
-    'opacity': 0,
-    'optimized': true
+    'opacity': 0
   });
   var labelMarker = new google.maps.Marker({
     'clickable': true,
     'zIndex': 1,
     'icon': self.get('label'),
-    'opacity': 0,
-    'optimized': true
+    'opacity': 0
   });
   labelMarker.addListener('click', function() {
     google.maps.event.trigger(self, 'click');
@@ -517,11 +517,46 @@ function ClusterIconClass(options) {
   iconMarker.bindTo('position', labelMarker);
   iconMarker.bindTo('map', labelMarker);
   self.bindTo('opacity', iconMarker);
-  self.bindTo('icon', iconMarker);
   self.bindTo('visible', iconMarker);
   self.bindTo('map', iconMarker);
   self.bindTo('position', iconMarker);
+  self.set('labelMarkerAnchor', new google.maps.Point(canvas.width / 2, canvas.height / 2));
 
+  self.addListener('icon_changed', function() {
+    var icon = self.get('icon');
+    if (typeof icon === "string") {
+      icon = {
+        "url": icon
+      };
+    }
+
+    var iconUrl = icon.url;
+    if (typeof icon === "object") {
+      if (typeof icon.size === "object" &&
+          icon.size.width && icon.size.height) {
+        icon.anchor = new google.maps.Point(icon.size.width / 2, icon.size.height / 2);
+        iconMarker.setIcon(icon);
+        return;
+      }
+    }
+    var img = new Image();
+    img.onload = function() {
+      icon.size = new google.maps.Size(img.width, img.height);
+      icon.scaledSize = new google.maps.Size(img.width, img.height);
+      icon.anchor = new google.maps.Point(img.width / 2, img.height / 2);
+      self.set('labelMarkerAnchor', new google.maps.Point(img.width / 2, img.height / 2));
+      iconMarker.setIcon(icon);
+    };
+    img.onerror = function(e) {
+      console.error(e);
+    };
+    img.src = iconUrl;
+  });
+
+  //debug
+  //var positionConfirmMarker = new google.maps.Marker();
+  //labelMarker.bindTo('position', positionConfirmMarker);
+  //labelMarker.bindTo('map', positionConfirmMarker);
 
   for (var key in options) {
     self.set(key, options[key]);
@@ -538,6 +573,8 @@ ClusterIconClass.prototype.onRemove = function() {
   var self = this;
   var canvas = self.get('canvas');
   self.set('map', null);
+  google.maps.event.clearInstanceListeners(self.get('iconMarker'));
+  google.maps.event.clearInstanceListeners(self.get('labelMarker'));
   var parent = canvas.parentNode;
   if (parent) {
     parent.removeChild(canvas);
@@ -574,6 +611,7 @@ ClusterIconClass.prototype.draw = function() {
         height: img.height
       };
       icon.size = newIconInfo;
+      self.set('labelMarkerAnchor', new google.maps.Point(newIconInfo.width / 2, newIconInfo.height / 2));
       self.set('icon', icon, true);
       resolve(newIconInfo);
     };
@@ -600,6 +638,10 @@ ClusterIconClass.prototype.draw = function() {
       italic: false
     };
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // debug
+    //ctx.fillStyle="#FF000077";
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     if (labelOptions.text) {
       var fontStyles = [];
 
@@ -634,11 +676,14 @@ ClusterIconClass.prototype.draw = function() {
       ctx.textAlign = 'center';
       ctx.fillText(labelOptions.text, iconSize.width / 2, iconSize.height / 2);
       // debug
-      //ctx.fillText(self.get('overlayId').split("-")[1], iconSize.width / 2, iconSize.height / 2);
+      //ctx.fillText(selfId.split("-")[1], iconSize.width / 2, iconSize.height / 2);
 
     }
 
-    self.get('labelMarker').set('icon', canvas.toDataURL());
+    self.get('labelMarker').set('icon', {
+      'url': canvas.toDataURL(),
+      'anchor': self.get('labelMarkerAnchor')
+    });
     setTimeout(function() {
       self.set("opacity", 1);
     }, 10);

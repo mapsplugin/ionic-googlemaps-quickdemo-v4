@@ -7,7 +7,8 @@ var utils = require('cordova/utils'),
 function TileOverlay(mapId, hashCode, options) {
   var self = this,
     tileSize = 256,
-    tileCaches = {};
+    tileCaches = {},
+    _opacity = 'opacity' in options ? options.opacity : 1;
 
   var mapType = {
     zIndex: options.zIndex || 0,
@@ -16,6 +17,13 @@ function TileOverlay(mapId, hashCode, options) {
     fadeIn: options.fadeIn === false ? false : true,
     visible: true,
 
+    setOpacity: function(opacity) {
+      _opacity = opacity;
+      var keys = Object.keys(tileCaches);
+      keys.forEach(function(key) {
+        tileCaches[key].style.opacity = _opacity;
+      });
+    },
     getTileFromCache: function(cacheId) {
       return tileCaches[cacheId];
     },
@@ -26,7 +34,9 @@ function TileOverlay(mapId, hashCode, options) {
       this.zIndex = parseInt(zIndexVal, 10);
     },
 
-    opacity: 'opacity' in options ? options.opacity : 1,
+    getOpacity: function() {
+      return _opacity;
+    },
 
     tileSize: new google.maps.Size(tileSize, tileSize),
 
@@ -71,6 +81,17 @@ function TileOverlay(mapId, hashCode, options) {
     releaseTile: function(div) {
       var cacheId = div.getAttribute('cacheId');
       delete tileCaches[cacheId];
+    },
+
+    remove: function() {
+      var keys = Object.keys(tileCaches);
+      keys.forEach(function(key) {
+        if (tileCaches[key].parentNode) {
+          tileCaches[key].parentNode.removeChild(tileCaches[key]);
+        }
+        tileCaches[key] = undefined;
+        delete tileCaches[key];
+      });
     }
   };
 
@@ -167,15 +188,15 @@ PluginTileOverlay.prototype.onGetTileUrlFromJS = function(onSuccess, onError, ar
 
   var tileLayer = self.pluginMap.objects[tileoverlayId];
 
-  if (tileLayer.getTileFromCache(cacheId)) {
+  if (tileLayer && tileLayer.getTileFromCache(cacheId)) {
     var tile = tileLayer.getTileFromCache(cacheId);
     tile.style.backgroundImage = "url('" + tileUrl + "')";
     tile.style.visibility = tileLayer.visible ? 'visible': 'hidden';
 
     if (tileLayer.fadeIn) {
-      fadeIn(tile, 500, tileLayer.opacity);
+      fadeInAnimation(tile, 500, tileLayer.getOpacity());
     } else {
-      tile.style.setOpacity = tileLayer.opacity;
+      tile.style.opacity = tileLayer.getOpacity();
     }
   }
   onSuccess();
@@ -191,6 +212,16 @@ PluginTileOverlay.prototype.setVisible = function(onSuccess, onError, args) {
   onSuccess();
 };
 
+PluginTileOverlay.prototype.setOpacity = function(onSuccess, onError, args) {
+  var self = this;
+  var overlayId = args[0];
+  var opacity = args[1];
+  var tileoverlay = self.pluginMap.objects[overlayId];
+  if (tileoverlay) {
+    tileoverlay.setOpacity(args[1]);
+  }
+  onSuccess();
+};
 PluginTileOverlay.prototype.setFadeIn = function(onSuccess, onError, args) {
   var self = this;
   var overlayId = args[0];
@@ -232,7 +263,17 @@ PluginTileOverlay.prototype.remove = function(onSuccess, onError, args) {
   var tileoverlay = self.pluginMap.objects[overlayId];
   if (tileoverlay) {
     google.maps.event.clearInstanceListeners(tileoverlay);
-    tileoverlay.setMap(null);
+    tileoverlay.remove();
+
+
+    var layers = self.pluginMap.get('map').overlayMapTypes.getArray();
+    layers.forEach(function(layer, idx) {
+      if (layer === tileoverlay) {
+        layers.splice(idx, 1);
+      }
+    });
+
+
     tileoverlay = undefined;
     self.pluginMap.objects[overlayId] = undefined;
     delete self.pluginMap.objects[overlayId];
@@ -242,16 +283,18 @@ PluginTileOverlay.prototype.remove = function(onSuccess, onError, args) {
 
 module.exports = PluginTileOverlay;
 
-function fadeIn(el, time, maxOpacity) {
+function fadeInAnimation(el, time, maxOpacity) {
   el.style.opacity = 0;
+  var timeFunc = typeof window.requestAnimationFrame === "function" ? requestAnimationFrame : setTimeout;
 
-  var last = +new Date();
+  var last = Date.now();
   var tick = function() {
-    el.style.opacity = +el.style.opacity + (new Date() - last) / time;
-    last = +new Date();
+    var now = Date.now();
+    el.style.opacity = +el.style.opacity + (now - last) / time;
+    last = now;
 
     if (+el.style.opacity < maxOpacity) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+      timeFunc.call(window, tick, 16);
     }
   };
 

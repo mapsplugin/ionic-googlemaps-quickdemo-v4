@@ -12,8 +12,10 @@ CHECK=`ls -l ${GMAPS_DIR_PATH}/package.json 2>&1`
 if [[ $CHECK = *"No such file or directory"* ]]; then
   (>&2 echo "There is no package.json at ${GMAPS_DIR_PATH}")
 else
+  rm -rf node_modules/\@ionic-native/plugins/core
   rm -rf node_modules/\@ionic-native/plugins/google-maps
 
-  cp -R ${GMAPS_DIR_PATH}/dist/\@ionic-native/core node_modules/\@ionic-native/
+  //cp -R ${GMAPS_DIR_PATH}/dist/\@ionic-native/core node_modules/\@ionic-native/
+  npm link ${GMAPS_DIR_PATH}/dist/\@ionic-native/core
   npm link ${GMAPS_DIR_PATH}/dist/\@ionic-native/plugins/google-maps
 fi

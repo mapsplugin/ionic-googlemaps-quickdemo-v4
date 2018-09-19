@@ -35,6 +35,17 @@ PluginPolygon.prototype._create = function(onSuccess, onError, args) {
       strokePath.push(new google.maps.LatLng(point.lat, point.lng));
     });
     polygonOpts.paths.push(strokePath);
+
+
+    if (Array.isArray(pluginOptions.holes)) {
+      pluginOptions.holes.forEach(function(hole) {
+        var holeMvc = new google.maps.MVCArray();
+        hole.forEach(function(vertix) {
+          holeMvc.push(new google.maps.LatLng(vertix.lat, vertix.lng));
+        });
+        polygonOpts.paths.push(holeMvc);
+      });
+    }
   }
   if (Array.isArray(pluginOptions.strokeColor)) {
     polygonOpts.strokeColor = 'rgb(' + pluginOptions.strokeColor[0] + ',' + pluginOptions.strokeColor[1] + ',' + pluginOptions.strokeColor[2] + ')';
@@ -237,7 +248,7 @@ PluginPolygon.prototype.setHoles = function(onSuccess, onError, args) {
 PluginPolygon.prototype.insertPointOfHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,  // idx=0 is for outter vertixes
     pointIndex = args[2],
     position = args[3],
     polygon = self.pluginMap.objects[overlayId];
@@ -245,7 +256,16 @@ PluginPolygon.prototype.insertPointOfHoleAt = function(onSuccess, onError, args)
   if (polygon) {
     var index = args[1];
     var latLng = new google.maps.LatLng(position.lat, position.lng);
-    polygon.getPaths().getAt(holeIndex).insertAt(pointIndex, latLng);
+    var paths = polygon.getPaths();
+    var hole = null;
+    if (holeIndex < paths.getLength()) {
+      hole = paths.getAt(holeIndex);
+    }
+    if (!hole) {
+      hole = new google.maps.MVCArray();
+      paths.push(hole);
+    }
+    hole.insertAt(pointIndex, latLng);
   }
   onSuccess();
 };
@@ -253,7 +273,7 @@ PluginPolygon.prototype.insertPointOfHoleAt = function(onSuccess, onError, args)
 PluginPolygon.prototype.setPointOfHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,
     pointIndex = args[2],
     position = args[3],
     polygon = self.pluginMap.objects[overlayId];
@@ -269,7 +289,7 @@ PluginPolygon.prototype.setPointOfHoleAt = function(onSuccess, onError, args) {
 PluginPolygon.prototype.removePointOfHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,
     pointIndex = args[2],
     polygon = self.pluginMap.objects[overlayId];
 
@@ -283,7 +303,7 @@ PluginPolygon.prototype.removePointOfHoleAt = function(onSuccess, onError, args)
 PluginPolygon.prototype.insertHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,
     vertixes = args[2],
     polygon = self.pluginMap.objects[overlayId];
 
@@ -302,7 +322,7 @@ PluginPolygon.prototype.insertHoleAt = function(onSuccess, onError, args) {
 PluginPolygon.prototype.setHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,
     vertixes = args[2],
     polygon = self.pluginMap.objects[overlayId];
 
@@ -320,7 +340,7 @@ PluginPolygon.prototype.setHoleAt = function(onSuccess, onError, args) {
 PluginPolygon.prototype.removeHoleAt = function(onSuccess, onError, args) {
   var self = this,
     overlayId = args[0],
-    holeIndex = args[1],
+    holeIndex = args[1] + 1,
     polygon = self.pluginMap.objects[overlayId];
 
   if (polygon) {
