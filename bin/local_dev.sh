@@ -15,7 +15,7 @@ else
   rm -rf node_modules/\@ionic-native/plugins/core
   rm -rf node_modules/\@ionic-native/plugins/google-maps
 
-  //cp -R ${GMAPS_DIR_PATH}/dist/\@ionic-native/core node_modules/\@ionic-native/
+  # cp -R ${GMAPS_DIR_PATH}/dist/\@ionic-native/core node_modules/\@ionic-native/
   npm link ${GMAPS_DIR_PATH}/dist/\@ionic-native/core
   npm link ${GMAPS_DIR_PATH}/dist/\@ionic-native/plugins/google-maps
 fi
