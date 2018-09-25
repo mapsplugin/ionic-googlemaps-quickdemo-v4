@@ -17,5 +17,5 @@ Please replace `(API key)` in  `config.xml` and `package.json` files with your A
 ```
 $> ionic cordova plugin add https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps --variable API_KEY_FOR_ANDROID="..." --variable API_KEY_FOR_IOS="..."
 
-$> npm install @ionic-native/core@5.0.0-beta.14 @ionic-native/google-maps@5.0.0-beta.15 --save
+$> npm install @ionic-native/core@beta @ionic-native/google-maps@beta --save
 ```
