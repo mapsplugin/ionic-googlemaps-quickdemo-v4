@@ -35,7 +35,6 @@ export class StreetViewPage implements OnInit {
     let initialPos: ILatLng = {lat: 42.345573, lng: -71.098326};
 
     // Create a map after the view is loaded.
-    // (platform is already ready in app.component.ts)
     this.panorama = GoogleMaps.createPanorama('pano_canvas', {
       camera: {
         target: initialPos
