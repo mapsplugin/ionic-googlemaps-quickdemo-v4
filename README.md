@@ -19,3 +19,24 @@ $> ionic cordova plugin add https://github.com/mapsplugin/cordova-plugin-googlem
 
 $> npm install @ionic-native/core@beta @ionic-native/google-maps@beta --save
 ```
+
+
+-------------
+
+# How to build this project for PWA?
+
+```
+$> git clone https://github.com/mapsplugin/ionic-googlemaps-quickdemo-v4
+
+$> vim package.json  // then replace `(YOUR_API_KEY)` with your key
+https://github.com/mapsplugin/ionic-googlemaps-quickdemo-v4/blob/master/package.json#L83-L84
+
+$> vim config.xml  //  then replace `(YOUR_API_KEY)` with your key
+
+$> npm i
+
+$> ionic cordova prepare
+
+$> npm run buildwww
+https://github.com/mapsplugin/ionic-googlemaps-quickdemo-v4/blob/master/package.json#L13
+```
