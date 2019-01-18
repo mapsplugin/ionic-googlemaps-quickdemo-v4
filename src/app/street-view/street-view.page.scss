@@ -1,0 +1,13 @@
+#pano_canvas {
+  height: 90%;
+  position: relative !important;
+}
+
+#map_canvas {
+  bottom: 5%;
+  left: 5%;
+  width: 150px;
+  height: 150px;
+  position: absolute !important;
+  z-index: 2;
+}

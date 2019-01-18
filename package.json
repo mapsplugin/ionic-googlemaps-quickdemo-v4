@@ -9,7 +9,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "buildwww": "rm -rf www/ docs/; ionic cordova build browser --prod; cp src/404.html www/; cp platforms/browser/config.xml www/; mv www docs; grep -rl '(YOUR_API_KEY_IS_HERE)' ./docs/ | xargs sed -i '' 's/(YOUR_API_KEY_IS_HERE)/AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk/g'",
+    "link": "bash bin/local_dev.sh"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +23,19 @@
     "@angular/platform-browser-dynamic": "~7.1.4",
     "@angular/router": "~7.1.4",
     "@ionic-native/core": "5.0.0-beta.21",
+    "@ionic-native/google-maps": "file:../ionic-native-google-maps-v5/dist/@ionic-native/plugins/google-maps",
     "@ionic-native/splash-screen": "5.0.0-beta.21",
     "@ionic-native/status-bar": "5.0.0-beta.21",
     "@ionic/angular": "4.0.0-rc.0",
+    "cordova-android": "7.1.4",
+    "cordova-browser": "5.0.4",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-googlemaps": "file:../cordova-plugin-googlemaps",
+    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-ionic-webview": "^2.3.1",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
@@ -54,5 +66,25 @@
     "tslint": "~5.12.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-googlemaps": {
+        "API_KEY_FOR_ANDROID": "AIzaSyAQb8UXtwwrW-R3zzOWgEDqvMNuA6IVkxs",
+        "API_KEY_FOR_IOS": "AIzaSyAQb8UXtwwrW-R3zzOWgEDqvMNuA6IVkxs",
+        "PLAY_SERVICES_VERSION": "15.0.1",
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
+    },
+    "platforms": [
+      "browser",
+      "android"
+    ]
+  }
 }

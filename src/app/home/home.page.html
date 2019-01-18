@@ -9,36 +9,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Resources</ion-label>
-      </ion-list-header>
-      <ion-item href="https://beta.ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic Documentation</ion-label>
-      </ion-item>
-      <ion-item href="https://beta.ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Scaffold Out Your App</ion-label>
-      </ion-item>
-      <ion-item href="https://beta.ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Change Your App Layout</ion-label>
-      </ion-item>
-      <ion-item href="https://beta.ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Theme Your App</ion-label>
-      </ion-item>
-    </ion-list>
+<ion-content padding>
+  <a class="sourcecode" href="https://github.com/mapsplugin/ionic-googlemaps-quickdemo-v4/blob/master/src/app/home/home.page.ts" target="_blank">[source code]</a>
+  <h3>Ionic GoogleMaps Demo</h3>
+  <p>
+  The <a href="https://github.com/ionic-team/ionic-native-google-maps">@ionic-native/google-maps</a> plugin and the <a href="https://github.com/mapsplugin/cordova-plugin-googlemaps" target="_blank">cordova-plugin-googlemaps</a> are able to display Google Maps in your Cordova application.
+  One source code, then run it browser, Android and iOS!
+  </p>
+  <div id="map_canvas">
+    <ion-button ion-button (click)="onButtonClick()">Demo</ion-button>
+  </div>
 </ion-content>
