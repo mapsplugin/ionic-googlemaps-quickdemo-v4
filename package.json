@@ -86,9 +86,7 @@
       }
     },
     "platforms": [
-      "browser",
-      "android",
-      "ios"
+      "browser"
     ]
   }
 }
