@@ -34,16 +34,16 @@ export class StreetViewPage implements OnInit {
   loadMap() {
     let initialPos: ILatLng = {lat: 42.345573, lng: -71.098326};
 
-    // Create a map after the view is loaded.
-    this.panorama = GoogleMaps.createPanorama('pano_canvas', {
-      camera: {
-        target: initialPos
-      }
-    });
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
         target: initialPos,
         zoom: 17
+      }
+    });
+    // Create a map after the view is loaded.
+    this.panorama = GoogleMaps.createPanorama('pano_canvas', {
+      camera: {
+        target: initialPos
       }
     });
 

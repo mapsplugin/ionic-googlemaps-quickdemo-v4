@@ -46,10 +46,10 @@ export class GeocodingPage implements OnInit {
 
     // Address -> latitude,longitude
     Geocoder.geocode({
-      "address": (this.search_address as any).value
+      "address": 'Универмаг белгород'
     })
     .then((results: GeocoderResult[]) => {
-      //console.log(results);
+      console.log(results);
       this.loading.dismiss();
 
       if (results.length > 0) {

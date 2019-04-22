@@ -77,11 +77,13 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       Environment.setEnv({
-        // api key for server
-        'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
+        // Api key for your server
+        // (Make sure the api key should have Website restrictions for your website domain only)
+        'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk',
 
-        // api key for local development
-        'API_KEY_FOR_BROWSER_DEBUG': ''
+        // Api key for local development
+        // (Make sure the api key should have Website restrictions for 'http://localhost' only)
+        'API_KEY_FOR_BROWSER_DEBUG': '(YOUR_API_KEY_IS_HERE)'
       });
       this.statusBar.styleDefault();
       this.splashScreen.hide();
