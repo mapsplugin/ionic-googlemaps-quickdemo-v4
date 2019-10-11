@@ -1,6 +1,6 @@
 {
-  "name": "MyApp",
-  "short_name": "MyApp",
+  "name": "GoogleMapsDemo",
+  "short_name": "GoogleMapsDemo",
   "description": "Description of your app from template",
   "start_url": "index.html",
   "scope": "index.html",

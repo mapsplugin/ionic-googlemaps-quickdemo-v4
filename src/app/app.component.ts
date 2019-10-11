@@ -79,7 +79,7 @@ export class AppComponent {
       Environment.setEnv({
         // Api key for your server
         // (Make sure the api key should have Website restrictions for your website domain only)
-        'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyBZamoub9SCWL2GriEBRSgLGVVrF0QPakk',
+        'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
 
         // Api key for local development
         // (Make sure the api key should have Website restrictions for 'http://localhost' only)
