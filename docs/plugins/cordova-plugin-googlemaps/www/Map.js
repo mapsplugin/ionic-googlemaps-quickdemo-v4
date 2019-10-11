@@ -77,7 +77,7 @@ utils.extend(Map, Overlay);
 Map.prototype.refreshLayout = function() {
   // Webkit redraw mandatory
   // http://stackoverflow.com/a/3485654/697856
-  document.body.style.display = 'none';
+  document.body.style.display = 'inline-block';
   document.body.offsetHeight;
   document.body.style.display = '';
 
@@ -481,6 +481,12 @@ Map.prototype.animateCamera = function(cameraPosition, callback) {
       return Promise.reject(error);
     }
   }
+  if ('heading' in cameraPosition) {
+    cameraPosition.heading = cameraPosition.heading % 360;
+  }
+  if ('tilt' in cameraPosition) {
+    cameraPosition.tilt = Math.min(Math.max(0, cameraPosition.tilt), 90);
+  }
   // if (!('padding' in cameraPosition)) {
   //   cameraPosition.padding = 10;
   // }
@@ -668,6 +674,17 @@ Map.prototype.getCameraPosition = function() {
 };
 
 /**
+ * Cancel the camera animation
+ * @return {CameraPosition}
+ */
+Map.prototype.stopAnimation = function() {
+  var self = this;
+  if (self._isReady) {
+    cordova_exec(null, null, self.__pgmId, 'stopAnimation', []);
+  }
+};
+
+/**
  * Remove the map completely.
  */
 Map.prototype.remove = function(callback) {
@@ -679,6 +696,7 @@ Map.prototype.remove = function(callback) {
     value: true,
     writable: false
   });
+  self.stopAnimation();
 
   self.trigger('remove');
   // var div = self.get('div');
@@ -1324,6 +1342,11 @@ Map.prototype.addMarker = function(markerOptions, callback) {
     marker.destroy();
     marker = undefined;
   });
+
+  if (typeof markerOptions.anchor === 'object' &&
+      'x' in markerOptions.anchor && 'y' in markerOptions.anchor) {
+    markerOptions.anchor = [markerOptions.anchor.x, markerOptions.anchor.y];
+  }
 
   self.exec.call(self, function(result) {
 
