@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+    <Style id="icon01">
+        <IconStyle>
+            <scale>1.0</scale>
+            <Icon>
+                <href>http://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href>
+            </Icon>
+            <hotSpot x="1.0" y="0.5" xunits="fraction" yunits="fraction"/>
+        </IconStyle>
+    </Style>
+
+    <Placemark>
+        <name>Start</name>
+        <styleUrl>#icon01</styleUrl>
+        <Point>
+            <coordinates>
+                127.682742,26.188025,0
+            </coordinates>
+        </Point>
+        <gx:drawOrder>1</gx:drawOrder>
+    </Placemark>
+</Document>
+</kml>
