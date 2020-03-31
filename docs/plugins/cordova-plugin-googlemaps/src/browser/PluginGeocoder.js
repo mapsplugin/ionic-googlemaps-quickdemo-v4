@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-googlemaps.PluginGeocoder", function(require, exports, module) { 
+cordova.define("cordova-plugin-googlemaps.PluginGeocoder", function(require, exports, module) {
 
 var BaseArrayClass = require('cordova-plugin-googlemaps.BaseArrayClass');
 
